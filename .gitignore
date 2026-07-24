@@ -24,3 +24,13 @@ CLAUDE.md
 publish-docker.sh
 .beads
 debug
+
+# CodeGraph index
+.codegraph/
+
+# Auto-refresh script runtime artifacts
+auto_refresh.log
+local_profiles/
+cookies/
+login_failures/
+screenshots/
