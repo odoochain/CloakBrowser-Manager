@@ -132,6 +132,30 @@ CONFIG = {
 }
 
 # ============================================================================
+# 本地覆盖配置
+# ============================================================================
+# 如果同目录存在 auto_refresh.local.py，则用其中的 CONFIG 字典覆盖上面的默认值。
+# 这个文件被 .gitignore 忽略，用于存放真实账号名、目标 URL 等私人配置。
+# 参考模板：auto_refresh.local.example.py
+
+def _load_local_overrides():
+    local_path = Path(__file__).parent / "auto_refresh.local.py"
+    if not local_path.exists():
+        return
+    try:
+        import importlib.util
+        spec = importlib.util.spec_from_file_location("auto_refresh_local", local_path)
+        module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+        overrides = getattr(module, "CONFIG", None)
+        if isinstance(overrides, dict):
+            CONFIG.update(overrides)
+    except Exception as e:
+        print(f"[warn] 加载 auto_refresh.local.py 失败: {e}", file=sys.stderr)
+
+_load_local_overrides()
+
+# ============================================================================
 # 日志配置
 # ============================================================================
 

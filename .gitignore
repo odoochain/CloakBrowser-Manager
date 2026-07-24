@@ -30,6 +30,7 @@ debug
 
 # Auto-refresh script runtime artifacts
 auto_refresh.log
+auto_refresh.local.py
 local_profiles/
 cookies/
 login_failures/
